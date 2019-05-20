@@ -7,5 +7,8 @@ export const environment = {
         authdb: process.env.DB_AUTH || 'admin',
         user: process.env.DB_USER || 'mongoadmin',
         password: process.env.DB_PWD || 'secret'
+    },
+    security: {
+        saltRounds: process.env.SALT_ROUNDS || 10
     }
 };
