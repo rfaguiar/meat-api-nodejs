@@ -2,6 +2,7 @@ import * as restify from 'restify';
 import * as mongoose from 'mongoose';
 import {environment} from "../common/environment";
 import {Router} from "../common/router";
+import {handleError} from "./error.handler";
 
 export class Server {
 
@@ -37,6 +38,8 @@ export class Server {
                 routers.map((router => router.applyRoutes(this.application)));
 
                 this.application.listen(environment.server.port, () => resolve(this.application));
+
+                this.application.on('restifyError', handleError);
 
             }catch (e) {
                 reject(e);
