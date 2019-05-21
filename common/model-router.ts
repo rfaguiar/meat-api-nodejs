@@ -5,7 +5,7 @@ import {NotFoundError} from "restify-errors";
 
 export abstract class ModelRouter<D extends mongoose.Document> extends Router {
 
-    constructor(protected model: mongoose.Model<D>) {
+    protected constructor(protected model: mongoose.Model<D>) {
         super();
     }
 
@@ -39,7 +39,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     replace = (req: restify.Request, resp: restify.Response, next: restify.Next) => {
         const options = {runValidators: true, overwrite: true};
         this.model.update({_id: req.params.id}, req.body, options)
-            .exec().then(result => {
+            .exec().then((result: any) => {
             if (result.n) {
                 return this.model.findById(req.params.id);
             } else {
@@ -52,7 +52,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     update = (req: restify.Request, resp: restify.Response, next: restify.Next) => {
         const options = {runValidators: true, new: true};
         this.model.findByIdAndUpdate(req.params.id, req.body, options)
-            .then(document => {
+            .then((document: D) => {
                 if (document) {
                     resp.json(document);
                 } else {

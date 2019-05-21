@@ -10,7 +10,7 @@ class UsersRouter extends ModelRouter<User> {
         this.on(BEFORE_RENDER, (document: User) => document.password = undefined);
     }
 
-    applyRoutes(application: restify.Server) {
+    public applyRoutes(application: restify.Server) {
         application.get('/users', this.findAll);
         application.get('/users/:id', [this.validateId, this.findById]);
         application.post('/users', this.save);
